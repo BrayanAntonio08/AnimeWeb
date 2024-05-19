@@ -32,9 +32,15 @@ export class HomeComponent {
   async getList(){
     this.api.load();
     if(this.searchingValue.length > 0)
-      this.animeList = await this.service.SearchAnime(this.searchingValue);
+      this.animeList = await this.service.SearchAnime(this.searchingValue).catch((err:any) => {
+        this.api.loaded();
+        return [];
+      });
     else
-      this.animeList = await this.service.ListAnimes();
+      this.animeList = await this.service.ListAnimes().catch((err:any) => {
+        this.api.loaded();
+        return [];
+      });
     this.api.loaded();
 
   }
