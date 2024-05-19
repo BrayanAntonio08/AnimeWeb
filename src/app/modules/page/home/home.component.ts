@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { BaseApiService } from '../../../core/services/base-api.service';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,7 @@ export class HomeComponent {
   animeList : Anime[] = [];
   searchingValue: string = '';
 
-  constructor(private service: AnimeService, private router: Router){
+  constructor(private service: AnimeService, private router: Router, private api:BaseApiService){
     this.getList();
   }
 
@@ -29,9 +30,12 @@ export class HomeComponent {
   }
 
   async getList(){
+    this.api.load();
     if(this.searchingValue.length > 0)
       this.animeList = await this.service.SearchAnime(this.searchingValue);
     else
       this.animeList = await this.service.ListAnimes();
+    this.api.loaded();
+
   }
 }

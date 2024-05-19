@@ -7,6 +7,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faHeart, faListDots, faStar, faX } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../../../core/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { BaseApiService } from '../../../core/services/base-api.service';
 
 
 @Component({
@@ -34,7 +35,8 @@ export class DetailComponent implements OnInit{
     private sanitizer: DomSanitizer, 
     private router: Router, 
     private authService: AuthService,
-    private msg: ToastrService
+    private msg: ToastrService,
+    private api:BaseApiService
   ) {}
 
 
@@ -45,11 +47,13 @@ export class DetailComponent implements OnInit{
         this.router.navigate(['/']);
       }
 
+      this.api.load();
       //call the service to get the corresponding anime
       this.animeService.GetAnime(anime_id).then((value)=>{
         this.animeInfo = value
         if(this.animeInfo.trailer_url !== undefined && this.animeInfo.trailer_url !== null)
           this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.animeInfo.trailer_url);
+        this.api.loaded();
       })
 
       this.authService.isUserAdmin().then(x => {
@@ -63,8 +67,10 @@ export class DetailComponent implements OnInit{
   }
   
   async manageFavourite(){
+    this.api.load();
     if(this.favAdded){
       let removed = await this.animeService.RemoveFavouriteAnime(this.animeInfo.id);
+      this.api.loaded();
       if(removed){
         this.msg.success("Anime removed from favourites");
         this.favAdded = false;
@@ -73,6 +79,7 @@ export class DetailComponent implements OnInit{
       }
     }else{
       let added = await this.animeService.AddFavouriteAnime(this.animeInfo.id);
+      this.api.loaded();
       if(added){
         this.msg.success("Anime added to favourites");
         this.favAdded = true;

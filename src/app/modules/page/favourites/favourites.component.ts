@@ -3,6 +3,7 @@ import { Anime } from '../../../core/models/AnimeModels';
 import { AnimeService } from '../../../core/services/anime.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { BaseApiService } from '../../../core/services/base-api.service';
 
 @Component({
   selector: 'app-favourites',
@@ -15,16 +16,12 @@ export class FavouritesComponent {
 
   animeList : Anime[] = [];
 
-  constructor(private service: AnimeService, private router: Router, private auth: AuthService){
-    if(this.auth.isUserActive()){
-      this.service.ListFavourites().then(x => {
-        this.animeList = x;
-      })
-    }else{
-      this.router.navigate(['/']);
-    }
-
-    
+  constructor(private service: AnimeService, private router: Router, private auth: AuthService, private api:BaseApiService){
+    this.api.load()
+    this.service.ListFavourites().then(x => {
+      this.animeList = x;
+      this.api.loaded();
+    })
   }
 
   viewDetail(id:number){

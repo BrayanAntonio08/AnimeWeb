@@ -3,6 +3,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { BaseApiService } from '../../../core/services/base-api.service';
 
 @Component({
   selector: 'app-layout',
@@ -19,7 +20,7 @@ export class LayoutComponent {
   adminUser : boolean = false;
   username: string = '';
 
-  constructor(private auth:AuthService){
+  constructor(private auth:AuthService, public api:BaseApiService){
     this.activeUser = this.auth.isUserActive();
     if(this.activeUser){
       this.username = sessionStorage['username'];

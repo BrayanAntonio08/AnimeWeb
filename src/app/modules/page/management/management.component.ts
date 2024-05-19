@@ -9,6 +9,7 @@ import { faEye, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IntegerValueDirective } from '../../../core/directives/integer-value.directive';
 import { DecimalValueDirective } from '../../../core/directives/decimal-value.directive';
+import { BaseApiService } from '../../../core/services/base-api.service';
 
 @Component({
   selector: 'app-management',
@@ -35,7 +36,9 @@ export class ManagementComponent {
     private animeService: AnimeService, 
     private router: Router, 
     private imageService: ImageService, 
-    private msg: ToastrService){
+    private msg: ToastrService,
+    private api: BaseApiService
+  ){
     
     this.getList();
   }
@@ -52,10 +55,16 @@ export class ManagementComponent {
     }
   }
 
+  // methods for showing Interface to drop the file
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragging = false;
+  }
   onDragOver(event: DragEvent): void {
     event.preventDefault();
     this.isDragging = true;
   }
+  // method for saving the dropped file into the image interface
   onDrop(event: DragEvent): void {
     event.preventDefault();
     this.isDragging = false;
@@ -76,16 +85,15 @@ export class ManagementComponent {
     }
   }
 
-  onDragLeave(event: DragEvent): void {
-    event.preventDefault();
-    this.isDragging = false;
-  }
+  
 
   async getList(){
+    this.api.load();
     if(this.searchingValue.length > 0)
       this.animeList = await this.animeService.SearchAnime(this.searchingValue);
     else
       this.animeList = await this.animeService.ListAnimes();
+      this.api.loaded();
   }
 
   createAnime(){
@@ -114,7 +122,7 @@ export class ManagementComponent {
   async saveAnime(){
     // initialy we have to upload the picture
     if(this.animeInfo && this.validate()){
-      
+      this.api.load();
       if(this.imgFile){
         this.imageService.upload(this.imgFile).then(url => {
           if(this.animeInfo){
@@ -128,23 +136,30 @@ export class ManagementComponent {
                 this.getList();
               }).catch(error => {
                 this.msg.error(error.message, "Creation failed")
+                this.api.loaded();
               })
             }else{
               this.animeService.UpdateAnime(this.animeInfo).then(value => {
                 this.msg.success("Item updated successfully");
+                this.api.loaded();
               }).catch(error => {
                 this.msg.error(error.message, "Update of item failed")
-              })
+                this.api.loaded();
+              });
             }
           }
         });
       }else if(this.animeInfo.image_url.length > 0 && this.animeInfo.id !== 0){
         this.animeService.UpdateAnime(this.animeInfo).then(value => {
           this.msg.success("Item updated successfully");
+          this.api.loaded();
         }).catch(error => {
           this.msg.error(error.message, "Update of item failed")
+          this.api.loaded();
         })
+        
       }else{
+        this.api.loaded();
         this.msg.warning("No image was given");
       }
     }
@@ -164,10 +179,11 @@ export class ManagementComponent {
   }
 
   async onConfirmDelete(){
+    this.api.load();
     let removed = await this.animeService.DeleteAnime(this.deletingId).catch(error =>{
       this.msg.error(error.message,"Unexpected error ocurred");
     });
-
+    this.api.loaded();
     if(removed){
       this.deletingId = 0;
       this.msg.success("Item deleted successfully");
