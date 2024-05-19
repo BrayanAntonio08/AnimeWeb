@@ -65,3 +65,15 @@
 .login-button:hover {
     background: #229ae4;
 }
+
+.logo{
+    max-height: 60px;
+    display: flex;
+    align-items: center;
+}
+.logo img{
+    width: 100%;
+    height: auto;
+    margin:2px;
+    object-fit: cover;
+}

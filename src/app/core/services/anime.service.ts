@@ -4,16 +4,18 @@ import { catchError } from 'rxjs';
 import { Anime } from '../models/AnimeModels';
 import { AuthService } from './auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { BaseApiService } from './base-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnimeService {
   
-  private url: string = "https://api.jikan.moe/v4/anime"
-  private api: string = "https://localhost:7003/api/anime"
+  private api: string = ""
   
-  constructor(private http: HttpClient, private auth: AuthService) { }
+  constructor(private http: HttpClient, private auth: AuthService, base: BaseApiService) { 
+    this.api = base.apiUrl+'/anime';
+  }
 
   ListAnimes():Promise<any>{
     return new Promise((resolve, reject) => {

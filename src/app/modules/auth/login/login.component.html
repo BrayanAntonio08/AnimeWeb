@@ -1,7 +1,9 @@
 <header style="height: 80px; position: fixed; top:0; width: 100%; z-index: 100;">
     <nav class="navbar bg-dark border-bottom border-body navbar-expand-md" data-bs-theme="dark">
         <div class="container">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <div class="logo col-8 col-sm-6 col-md-5 col-lg-4">
+                <img src="https://res.cloudinary.com/dddjj3cfl/image/upload/v1715998969/logoApp_mi3d8y.png" alt="Anime Hub Logo">
+            </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#clientNavbar" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -27,7 +29,7 @@
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" class="form-control login-input" [(ngModel)]="userInfo.password">
             </div>
-            <button class="login-button btn my-4" (click)="LoginUser()">Ingresar</button>
+            <button class="login-button btn my-4" (click)="LoginUser()">Login</button>
         </div>
         <span class="text-white">Don't have an account yet? <a [routerLink]="['/auth/signup']">Register</a></span>
     </div>

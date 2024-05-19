@@ -4,6 +4,7 @@ import { User } from '../models/AuthModels';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { BaseApiService } from './base-api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,11 @@ import { ToastrService } from 'ngx-toastr';
 export class AuthService {
 
   private tokenKey: string = 'jwt_token';
-  url :string = "https://localhost:7003/api/auth";
+  url :string = "";
 
-  constructor(private http: HttpClient, private router: Router, private msg:ToastrService) { }
+  constructor(private http: HttpClient, private router: Router, private msg:ToastrService, base:BaseApiService) { 
+    this.url = base.apiUrl+'/auth';
+  }
 
   register(user: User){
     this.http.post<User>(`${this.url}/register`, user).pipe(
@@ -49,7 +52,7 @@ export class AuthService {
           // go back to home page
           this.router.navigate(['/'])
         }else{
-          alert('Incorrect');
+          this.msg.warning("Incorrect credentials");
         }
       }
     );
