@@ -74,7 +74,7 @@ export class AuthService {
 
   isUserAdmin():Promise<boolean>{
     const token = sessionStorage.getItem(this.tokenKey);
-
+    
     if(token === null) 
       return new Promise((resolve)=>resolve(false));
 

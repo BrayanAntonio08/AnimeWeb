@@ -55,13 +55,16 @@ export class DetailComponent implements OnInit{
           this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.animeInfo.trailer_url);
         this.api.loaded();
       })
-
-      this.authService.isUserAdmin().then(x => {
-        this.clientUser = !x;
-        if(this.clientUser){
-          this.animeService.IsFavouriteAnime(anime_id).then(x => this.favAdded = x);
-        }
-      });
+      
+      if(this.authService.isUserActive()){
+        this.authService.isUserAdmin().then(x => {
+          this.clientUser = !x;
+          if(this.clientUser){
+            this.animeService.IsFavouriteAnime(anime_id).then(x => this.favAdded = x);
+          }
+        }).catch(error => this.clientUser = false);
+      }
+      
       
     });
   }
