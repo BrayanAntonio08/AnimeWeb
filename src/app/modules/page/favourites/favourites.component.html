@@ -1,0 +1,24 @@
+<div class="pt-5">
+    <h1>Favourites</h1>
+    <p>
+       Here you can check those animes you have saved in you own space
+    </p>
+</div>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+    @for(anime of animeList; track anime.id){
+        <div class="col d-flex justify-content-center">
+            <div class="anime-card" (click)="viewDetail(anime.id)">
+                <div class="card-img">
+                    <img [src]="anime.image_url" alt="Imagen">
+                </div>
+                <div class="anime-title">
+                    <h6>
+                        {{anime.english_title.length > 0? 
+                        anime.english_title:
+                        (anime.japanese_title !== undefined? anime.japanese_title: 'Not title defined')
+                        }}</h6>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,40 @@
+
+<div class="pt-5">
+    <h1>Welcome to the Anime Hub</h1>
+    <p>
+        Anime Hub is your comprehensive repository for all things anime. Our website is dedicated to providing 
+        detailed documentation on a vast array of anime series and movies, making it the ultimate resource for 
+        anime enthusiasts and researchers alike.
+    </p>
+</div>
+
+
+<div class="my-3 row justify-content-between">
+    <div class="col-12 col-md-8 col-lg-9">
+        <h3 class="mb-4">What are you looking for? Everything is here</h3>
+    </div>
+    <div class="col-12 col-md-4 col-lg-3">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Anime name" [(ngModel)]="searchingValue">
+            <button class="btn btn-outline-secondary" type="button" (click)="getList()"><fa-icon [icon]="faIcon"/>  Search</button>
+          </div>
+    </div>
+</div>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+    @for(anime of animeList; track anime.id){
+        <div class="col d-flex justify-content-center">
+            <div class="anime-card" (click)="viewDetail(anime.id)">
+                <div class="card-img">
+                    <img [src]="anime.image_url" alt="Imagen">
+                </div>
+                <div class="anime-title">
+                    <h6>
+                        {{anime.english_title.length > 0? 
+                        anime.english_title:
+                        (anime.japanese_title !== undefined? anime.japanese_title: 'Not title defined')
+                        }}</h6>
+                </div>
+            </div>
+        </div>
+    }
+</div>

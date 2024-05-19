@@ -1,0 +1,38 @@
+
+.anime-card{
+    border-radius: 10px;
+    padding: 5px;
+    border-color: #7d5e96;
+    border-style: solid;
+    width: 16em;
+    margin: 1em;
+}
+
+.anime-card:hover{
+    border-color: #ae8bca;
+    cursor: pointer;
+    color:#cfd7d9;
+}
+
+.card-img{
+    width: 100%;
+    max-height: 22em;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.card-img img{
+    aspect-ratio: 4/5.5;
+    width: 100%;
+    height: auto;
+    margin:2px;
+    object-fit: cover;
+}
+
+.anime-title{
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}

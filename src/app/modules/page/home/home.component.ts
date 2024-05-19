@@ -1,0 +1,37 @@
+import { Component, inject } from '@angular/core';
+import { AnimeService } from '../../../core/services/anime.service';
+import { Anime, mapApiEntity } from '../../../core/models/AnimeModels';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
+@Component({
+  selector: 'app-home',
+  standalone: true,
+  imports: [FormsModule, FontAwesomeModule],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.css'
+})
+export class HomeComponent {
+
+  faIcon = faMagnifyingGlass;
+
+  animeList : Anime[] = [];
+  searchingValue: string = '';
+
+  constructor(private service: AnimeService, private router: Router){
+    this.getList();
+  }
+
+  viewDetail(id:number){
+    this.router.navigate(['details'], { queryParams: {animeid: id} });
+  }
+
+  async getList(){
+    if(this.searchingValue.length > 0)
+      this.animeList = await this.service.SearchAnime(this.searchingValue);
+    else
+      this.animeList = await this.service.ListAnimes();
+  }
+}

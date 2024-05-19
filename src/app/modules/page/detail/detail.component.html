@@ -1,0 +1,78 @@
+<div class="my-5 w-100">
+    <div class="row">
+        <div class="col-12 col-md-3 mb-4">
+            <img [src]="animeInfo.image_url" alt="Imagen" class="w-100 mb-3">
+
+            @if(animeInfo.airing){
+                <div class="airing-box">
+                    <h5>Airing</h5>
+                </div>
+            }@else {
+                <div class="finished-box">
+                    <h5>Finished</h5>
+                </div>
+            }
+            
+            <div class="statistics">
+                <div class="mb-4">
+                    <p><fa-icon [icon]="faStar" /> Score:</p>
+                    <b class="ms-5">{{animeInfo.score}}</b>
+                </div>
+                <div>
+                    <p><fa-icon [icon]="faList" /> Amount of episodes:</p>
+                    <b class="ms-5">{{animeInfo.episodes}}</b>
+                </div>
+            </div>
+            @if(clientUser){
+                <div class="mt-3">
+                    <button class="btn favourite" (click)="manageFavourite()">
+                        @if(favAdded){
+                            <fa-icon [icon]="faX"></fa-icon> Remove from Favourites
+                        }@else {
+                            <fa-icon [icon]="faHeart"></fa-icon> Add to Favourites
+                        }
+                    </button>
+                </div>
+            }
+        </div>
+        <div class="col-12 col-md-9 pt-3">
+            <div class="title">
+                <h1>
+                    {{animeInfo.english_title.length > 0? 
+                        animeInfo.english_title:
+                        (animeInfo.japanese_title !== null? animeInfo.japanese_title: 'Not title defined')
+                        }}
+                </h1>
+                <div>
+                    @if(animeInfo.japanese_title !== null && animeInfo.english_title.length > 0){
+                        <h4 style="color: #BBB;">
+                            {{animeInfo.japanese_title}}
+                        </h4>
+                    }
+                </div>
+            </div>
+            
+
+            <div class="description-section">
+                <h3>Synopsis</h3>
+                <div [innerHTML]="animeInfo.synopsis"></div>
+                
+                <div class="pt-3">
+                    <h3>Trailer</h3>
+                    <div class="d-flex justify-content-center">
+                        <div class="col-12 col-sm-10 col-md-9 col-lg-8 col-xl-7">
+                            @if(videoUrl !== undefined){
+                                <iframe style="width: 100%; height: 320px;" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
+                            }@else {
+                                <div class="bg-dark d-flex text-center align-items-center justify-content-center" style="width: 100%; height: 320px;">
+                                    <h5>No trailer available</h5>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>

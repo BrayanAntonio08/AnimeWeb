@@ -1,0 +1,63 @@
+.layout{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.signup-btn{
+    height: 3em;
+    border-radius: 1.5em;
+    overflow: hidden;
+    border: 1px #555 solid;
+    margin:5px;
+}
+
+.login-btn{
+    height: 3em;
+    border-radius: 1.5em;
+    overflow: hidden;
+    color: white;
+    background-color: #2a4666;
+    margin:5px;
+}
+.login-btn:hover{
+    color: white;
+    background-color: #37659a;
+}
+
+.logout-btn{
+    height: 100%;
+    border-radius: 1.5em;
+    overflow: hidden;
+    color: white;
+    background-color: #853928;
+}
+.logout-btn:hover{
+    color: white;
+    background-color: #b72d2d;
+}
+.input-group span{
+    border-top-left-radius: 1.5em !important;
+    border-bottom-left-radius: 1.5em !important;
+}
+
+.logo{
+    max-height: 60px;
+    display: flex;
+    align-items: center;
+}
+.logo img{
+    width: 100%;
+    height: auto;
+    margin:2px;
+    object-fit: cover;
+}
+
+footer{
+    width: 100%;
+    background-color: #202327;
+    color:white;
+}
