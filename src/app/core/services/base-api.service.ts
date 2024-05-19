@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class BaseApiService {
 
-  apiUrl = "http://www.animehub-webapi.somee.com/api";
+  apiUrl = "https://www.animehub-webapi.somee.com/api";
   loading = false;
   constructor() { }
 
